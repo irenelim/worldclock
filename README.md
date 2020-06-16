@@ -1,68 +1,39 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## plug and play
+[miniworldClock]()
 
-In the project directory, you can run:
+### Know the App
+#### Functionality
+1. clickable map - click on each country to see the currenttime and time info(timezone, dst)
+2. Timebar - choose a country to display the currenttime in bar chart.
+**Note: Current time of each country was calculated base on current utc time getting from worldclockapi.com and timezone info from geojson data**
+**Note: Calculation of currentime does not including the DST hour. If the selected country is with DST, currenttime display may not be accurate.**
+**Note: Some countries have multiple timezones, and only 1 timezone is chosen to represent the tz of each countries.**
+*Note: Time info is getting from geojson's properties*
 
-### `npm start`
+#### How to Use the App
+* 2 pages; to navigate between the page, check the link at the buttom of each pages.
+* click on any country on the map will zoom in and display you the current time and the time info.
+* click again the country will zoomout the map.
+* whenever you want to update the current time, click on the ***UTC current time*** at the bottom of the screen.
+*The current time calculation are all based on the utc current time getting from worldclockapi.com. If the utc datetime is not displayed, the data and info for the app might be empty.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Development
+build with `react hooks`, `react-router`, `axios`, `d3`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### get current utc time
+`http://worldclockapi.com/api/json/utc/now`
 
-### `npm test`
+#### time info
+[timezone](https://en.wikipedia.org/wiki/List_of_time_zones_by_country)
+[DST](https://en.wikipedia.org/wiki/Daylight_saving_time_by_country)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+#### get GEOJSON, countries, etc
+(geojson)[https://geojson-maps.ash.ms/]
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Reference for d3
+- [d3 + react](https://www.youtube.com/playlist?list=PLDZ4p-ENjbiPo4WH7KdHjh_EMI7Ic8b2B)
+- [d3 api doc](https://github.com/d3/d3/blob/master/API.md)
+- [d3 tutorial](https://github.com/d3/d3/wiki/Tutorials)
