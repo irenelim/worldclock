@@ -1,7 +1,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+
 ## plug and play
-[miniworldClock]()
+[miniworldClock](https://worldclock-b7b49.web.app)
+*worldclockapi.com with insecure XMLHttpRequest endpoint*
+
+## install from git
+`git clone https://github.com/irenelim/worldclock.git`
+
+`npm install`
+
+`npm start`
+
 
 ### Know the App
 #### Functionality
