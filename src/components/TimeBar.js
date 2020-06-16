@@ -30,8 +30,8 @@ function TimeBar({data, property, utcCurrentTime}) {
     const handleSelectedCountry = useCallback((event)=> {
         dispatch({type: "SET_COUNTRY", payload: event.target.value });
         if (utcCurrentTime.length>0){ 
-            const utcOffset = data.features.filter(feature => feature.properties.name===event.target.value)[0].properties[property[1]].slice(3);;
-            const utcTime = getCurrentTime(utcCurrentTime.slice(-6, -1), utcOffset);
+            const utcOffset = data.features.filter(feature => feature.properties.name===event.target.value)[0].properties[property[1]];
+            const utcTime = getCurrentTime(utcCurrentTime, utcOffset);
             dispatch({type: "SET_UTC_OFFSET", payload: utcOffset});
             dispatch({type: "SET_CURRENTTIME", payload: utcTime});
         }
@@ -39,7 +39,7 @@ function TimeBar({data, property, utcCurrentTime}) {
 
     useEffect(()=>{
         if (utcOffset.length>0 && utcCurrentTime.length>0){ 
-            const utcTime = getCurrentTime(utcCurrentTime.slice(-6, -1), utcOffset);
+            const utcTime = getCurrentTime(utcCurrentTime, utcOffset);
             dispatch({type: "SET_CURRENTTIME", payload: utcTime});
         }
     }, [utcCurrentTime, utcOffset]);

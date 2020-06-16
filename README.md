@@ -1,10 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
-
 ## plug and play
 [miniworldClock](https://worldclock-b7b49.web.app)
+<br />
 *worldclockapi.com with insecure XMLHttpRequest endpoint*
+
+*fallback using JS Date ISO String*
+
+
 
 ## install from git
 `git clone https://github.com/irenelim/worldclock.git`
@@ -20,7 +24,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 2. Timebar - choose a country to display the currenttime in bar chart.
 <br/>
 
-**Note: Current time of each country was calculated base on current utc time getting from worldclockapi.com and timezone info from geojson data**
+**Note: Current time of each country was calculated base on current utc time getting from *worldclockapi.com / js ISO String* and timezone info from *geojson extended props* data**
 <br/>
 
 **Note: Calculation of currentime does not including the DST hour. If the selected country is with DST, currenttime display may not be accurate.**
@@ -36,13 +40,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * click again the country will zoomout the map.
 * whenever you want to update the current time, click on the ***UTC current time*** at the bottom of the screen.
 
-***The current time calculation are all based on the utc current time getting from worldclockapi.com. If the utc datetime is not displayed, the data and info for the app might be empty.***
-
 ## Development
 build with `react hooks`, `react-router`, `axios`, `d3`
 
 #### get current utc time
 `http://worldclockapi.com/api/json/utc/now`
+fallback:<br/>
+`new Date().toISOString()`
 
 #### time info
 [timezone](https://en.wikipedia.org/wiki/List_of_time_zones_by_country)
@@ -56,3 +60,4 @@ build with `react hooks`, `react-router`, `axios`, `d3`
 - [d3 + react](https://www.youtube.com/playlist?list=PLDZ4p-ENjbiPo4WH7KdHjh_EMI7Ic8b2B)
 - [d3 api doc](https://github.com/d3/d3/blob/master/API.md)
 - [d3 tutorial](https://github.com/d3/d3/wiki/Tutorials)
+

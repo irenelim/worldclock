@@ -1,10 +1,12 @@
 export const getCurrentTime = (utcTime, timeZoneStr) => {
-    const offsetSign = timeZoneStr.slice(0, 1);
-    const offsetHr = parseInt(timeZoneStr.slice(1, 3));
-    const offsetMin = parseInt(timeZoneStr.slice(-2));
+    const utcTimeExact = utcTime.slice(11, 16);
+    const  timeZoneStrExact = timeZoneStr.slice(3);
+    const offsetSign = timeZoneStrExact.slice(0, 1);
+    const offsetHr = parseInt(timeZoneStrExact.slice(1, 3));
+    const offsetMin = parseInt(timeZoneStrExact.slice(-2));
   
-    const utcHr = parseInt(utcTime.split(/:/)[0]);
-    const utcMin = parseInt(utcTime.split(/:/)[1]);
+    const utcHr = parseInt(utcTimeExact.split(/:/)[0]);
+    const utcMin = parseInt(utcTimeExact.split(/:/)[1]);
   
     let hr = 0;
     let min = 0;

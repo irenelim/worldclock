@@ -54,8 +54,8 @@ function Globe({ data, property, utcCurrentTime }) {
         feature =>
           feature &&
           `Current Time: ${utcCurrentTime.length>0 ? getCurrentTime(
-              utcCurrentTime.slice(-6, -1), 
-              feature.properties[property[1]].slice(3)) : ''}` 
+              utcCurrentTime, 
+              feature.properties[property[1]]) : ''}` 
       )
       .attr("x", '50%')
       .attr("y", `${height/2}px`);    

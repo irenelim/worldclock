@@ -10,23 +10,26 @@ import './App.css';
 const property = ["time_zone", "utc_offset", "dst"];
 
 function App() {
-  const [utcCurrentTime, setUtcCurrentTime] = useState('');
+  const [utcCurrentTime, setUtcCurrentTime] = useState(new Date().toISOString());
   const [updateUtc, setUpdateUtc] = useState(true);
 
   useEffect(()=>{
     if (updateUtc){ 
-    axios.get('http://worldclockapi.com/api/json/utc/now')
-      .then(res =>{
-          if (res.data && res.data.currentDateTime){
-              const utcCurrentTime = res.data.currentDateTime;
-              setUtcCurrentTime(utcCurrentTime);    
-              setUpdateUtc(false);   
-              console.log(utcCurrentTime);       
-          }
-      })
-      .catch(error=>{
-        console.log(error);
-      });
+      const utcCurrentTime = new Date().toISOString();  // 2020-06-16T11:22:26.949Z
+      setUtcCurrentTime(utcCurrentTime);    
+      setUpdateUtc(false);
+
+      axios.get('http://worldclockapi.com/api/json/utc/now')
+        .then(res =>{
+            if (res.data && res.data.currentDateTime){
+                const utcCurrentTime = res.data.currentDateTime;
+                setUtcCurrentTime(utcCurrentTime); 
+                console.log(utcCurrentTime);       
+            }
+        })
+        .catch(error=>{
+          console.log(error);
+        });
     }
   }, [updateUtc]);
  
