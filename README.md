@@ -45,8 +45,8 @@ build with `react hooks`, `react-router`, `axios`, `d3`
 
 #### get current utc time
 `http://worldclockapi.com/api/json/utc/now`
-fallback:<br/>
-`new Date().toISOString()`
+<br/>
+fallback: `new Date().toISOString()`
 
 #### time info
 [timezone](https://en.wikipedia.org/wiki/List_of_time_zones_by_country)
@@ -61,3 +61,7 @@ fallback:<br/>
 - [d3 api doc](https://github.com/d3/d3/blob/master/API.md)
 - [d3 tutorial](https://github.com/d3/d3/wiki/Tutorials)
 
+## Next
+- get City/Capital, Tz, show Date and Time
+- tooltip format for chart and map
+- color random for each countries.
