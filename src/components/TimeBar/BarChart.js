@@ -73,7 +73,8 @@ function BarChart({currentTime}) {
             .join("text")
             .attr("class", "tooltip")
             .text((value, index) => value)
-            .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) - 10 )
+            .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) )
+            .attr("text-anchor", "middle")
             .attr("y", (value, index) => (index===0 ? yScaleHr(value) : yScaleMin(value)) - 10 );
 
     }, [currentTime, dimensions]);
