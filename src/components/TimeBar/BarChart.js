@@ -33,7 +33,7 @@ function BarChart({currentTime}) {
 
         const xAxis = axisBottom(xScale)
                         .ticks(data.length)
-                        .tickFormat(d=>`${data[d].xlabel} ${data[d].value}`);
+                        .tickFormat(d=>data[d].xlabel);
         svg
             .select(".x-axis")
             .style("transform", `translateY(${height}px)`)
@@ -75,7 +75,8 @@ function BarChart({currentTime}) {
             .text((value, index) => value)
             .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) )
             .attr("text-anchor", "middle")
-            .attr("y", (value, index) => (index===0 ? yScaleHr(value) : yScaleMin(value)) - 10 );
+            .attr("fill", "#fff")
+            .attr("y", (value, index) => (index===0 ? yScaleHr(value) : yScaleMin(value)) + (value>0 ? 18: 0));
 
     }, [currentTime, dimensions]);
 
