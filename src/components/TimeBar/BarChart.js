@@ -8,6 +8,7 @@ function BarChart({currentTime}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const dimensions = useResizeObserver(wrapperRef);
+    // const [tooltip, setTooltip] = useState(null);
 
     useEffect(()=>{
         const data = [{xlabel:"hr", value: currentTime ? parseInt(currentTime.split(/:/)[0]) : 0}, 
@@ -59,10 +60,21 @@ function BarChart({currentTime}) {
             .attr("x", (value, index) => xScale(index))
             .attr("y", -height)
             .attr("width", xScale.bandwidth())
+            // .on("click", (value, index) => {
+            // })            
             .transition()
             .attr("height", (value, index) => 
                 height - ( index===0 ? yScaleHr(value) : yScaleMin(value) )
-            );        
+            );  
+
+        svg
+            .selectAll('.tooltip')
+            .data(data.map(item=>item.value))
+            .join("text")
+            .attr("class", "tooltip")
+            .text((value, index) => value)
+            .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) - 10 )
+            .attr("y", (value, index) => (index===0 ? yScaleHr(value) : yScaleMin(value)) - 10 );
 
     }, [currentTime, dimensions]);
 

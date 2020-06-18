@@ -63,5 +63,6 @@ fallback: `new Date().toISOString()`
 
 ## Next
 - get City/Capital, Tz, show Date and Time
-- tooltip format for chart and map
-- color random for each countries.
+- tooltip format for map
+- [X] show value for bars
+- [X] color random for each countries.
