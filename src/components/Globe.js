@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { select, geoPath, geoMercator } from "d3";
 import useResizeObserver from "../shared/useResizeObserver";
-import { getCurrentTime } from '../shared/functions';
+import { getCurrentTime, randomColor } from '../shared/functions';
+import { visitedCountry } from '../data/mydata';
 
 function Globe({ data, property, utcCurrentTime }) {
   const svgRef = useRef();
@@ -30,7 +31,7 @@ function Globe({ data, property, utcCurrentTime }) {
       })
       .attr("class", "country")
       .transition()
-        .attr("fill", '#7cba68')
+        .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#EEF1F8'))
       .attr("d", feature => pathGenerator(feature));
 
     svg
@@ -88,7 +89,7 @@ function Globe({ data, property, utcCurrentTime }) {
   return (
     <>
     <h2>World Map Clock</h2>
-    
+    <small>click on country to show time info; click again on the country to zoom out map.</small>
       <div ref={wrapperRef} className="gutterBottom">
         <svg ref={svgRef}></svg>
       </div>
