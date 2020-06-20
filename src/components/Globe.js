@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { select, geoPath, geoMercator } from "d3";
+import { select, geoPath, geoMercator, zoom, zoomTransform } from "d3";
 import useResizeObserver from "../shared/useResizeObserver";
 import { getCurrentTime, randomColor } from '../shared/functions';
 import { visitedCountry } from '../data/mydata';
@@ -9,6 +9,7 @@ function Globe({ data, property, utcCurrentTime }) {
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [currentZoomState, setCurrentZoomState] = useState(null);
 
   useEffect(() => {
     const svg = select(svgRef.current);
@@ -20,71 +21,38 @@ function Globe({ data, property, utcCurrentTime }) {
       .fitSize([width, height], selectedCountry || data)
       .precision(100);
 
-    const pathGenerator = geoPath().projection(projection);
+    const pathGenerator = geoPath().projection(projection);    
 
     svg
       .selectAll(".country")
       .data(data.features)
-      .join("path")
+      .join(enter =>
+        enter.append("path")
+          .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#EEF1F8'))
+      )
       .on("click", feature => {
         setSelectedCountry(selectedCountry === feature ? null : feature);
+        svg.attr('transform', selectedCountry === feature ? null : currentZoomState);
       })
       .attr("class", "country")
-      .transition()
-        .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#EEF1F8'))
+      .transition()        
       .attr("d", feature => pathGenerator(feature));
 
-    // svg
-    //   .selectAll(".label")
-    //   .data([selectedCountry])
-    //   .join("text")
-    //   .attr("class", "label")
-    //   .text(
-    //     feature =>
-    //       feature &&
-    //       `<${feature.properties.name}>` 
-    //   )
-    //   .attr("x", '50%')
-    //   .attr("y", `${height/2-18}px`);    
-    // svg
-    //   .selectAll(".labelTime")
-    //   .data([selectedCountry])
-    //   .join("text")
-    //   .attr("class", "labelTime")
-    //   .text(
-    //     feature =>
-    //       feature &&
-    //       `Current Time: ${utcCurrentTime.length>0 ? getCurrentTime(
-    //           utcCurrentTime, 
-    //           feature.properties[property[1]]) : ''}` 
-    //   )
-    //   .attr("x", '50%')
-    //   .attr("y", `${height/2}px`);    
-    // svg
-    //   .selectAll(".label1")
-    //   .data([selectedCountry])
-    //   .join("text")
-    //   .attr("class", "label1")
-    //   .text(
-    //     feature =>
-    //       feature && 
-    //         `Time Zone: ${feature.properties[property[1]]}`
-    //   )
-    //   .attr("x", '50%')
-    //   .attr("y", `${height/2+18}px`);
-    // svg
-    //   .selectAll(".label2")
-    //   .data([selectedCountry])
-    //   .join("text")
-    //   .attr("class", "label2")
-    //   .text(
-    //     feature =>
-    //       feature && 
-    //         `With DST: ${feature.properties[property[2]]===1?'Yes': 'No'}`
-    //   )
-    //   .attr("x", '50%')
-    //   .attr("y", `${(height/2)+(18*2)}px`);
-  }, [data, dimensions, property, selectedCountry, utcCurrentTime]);
+    const zoomBehavior = zoom()
+      .scaleExtent([0.8, 5])
+      .translateExtent([
+        [0, 0],
+        [width, height]
+      ])
+      .on("zoom", ()=>{
+        const zoomState = zoomTransform(svg.node());
+        setCurrentZoomState(zoomState);
+        svg.attr('transform', zoomState);
+      });
+
+    svg.call(zoomBehavior);
+    
+  }, [data, dimensions, property, selectedCountry, utcCurrentTime, currentZoomState]);
 
   return (
     <>
