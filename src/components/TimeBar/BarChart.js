@@ -8,7 +8,6 @@ function BarChart({currentTime}) {
     const svgRef = useRef();
     const wrapperRef = useRef();
     const dimensions = useResizeObserver(wrapperRef);
-    // const [tooltip, setTooltip] = useState(null);
 
     useEffect(()=>{
         const data = [{xlabel:"hr", value: currentTime ? parseInt(currentTime.split(/:/)[0]) : 0}, 
@@ -68,10 +67,10 @@ function BarChart({currentTime}) {
             );  
 
         svg
-            .selectAll('.tooltip')
+            .selectAll('.tip')
             .data(data.map(item=>item.value))
             .join("text")
-            .attr("class", "tooltip")
+            .attr("class", "tip")
             .text((value, index) => value)
             .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) )
             .attr("text-anchor", "middle")

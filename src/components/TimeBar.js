@@ -52,7 +52,7 @@ function TimeBar({data, property, utcCurrentTime}) {
                 onChange={handleSelectedCountry}
             >
                 <option> </option>
-                {data.features.map((item, index) => ( 
+                {data.features.sort((a, b) => a.properties.name.localeCompare(b.properties.name)).map((item, index) => ( 
                     <option key={index} value={item.properties.name}>
                         {item.properties.name}
                     </option>

@@ -60,9 +60,12 @@ fallback: `new Date().toISOString()`
 - [d3 + react](https://www.youtube.com/playlist?list=PLDZ4p-ENjbiPo4WH7KdHjh_EMI7Ic8b2B)
 - [d3 api doc](https://github.com/d3/d3/blob/master/API.md)
 - [d3 tutorial](https://github.com/d3/d3/wiki/Tutorials)
+- [data visualization d3](https://www.youtube.com/watch?v=_8V5o2UHG0E)
 
 ## Next
 - get City/Capital, Tz, show Date and Time
-- tooltip format for map
+- [ ] + - for map
+- [X] tooltip format for map
 - [X] show value for bars
 - [X] color random for each countries.
+- [ ] stop color random on every click

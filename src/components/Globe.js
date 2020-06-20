@@ -34,56 +34,56 @@ function Globe({ data, property, utcCurrentTime }) {
         .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#EEF1F8'))
       .attr("d", feature => pathGenerator(feature));
 
-    svg
-      .selectAll(".label")
-      .data([selectedCountry])
-      .join("text")
-      .attr("class", "label")
-      .text(
-        feature =>
-          feature &&
-          `<${feature.properties.name}>` 
-      )
-      .attr("x", '50%')
-      .attr("y", `${height/2-18}px`);    
-    svg
-      .selectAll(".labelTime")
-      .data([selectedCountry])
-      .join("text")
-      .attr("class", "labelTime")
-      .text(
-        feature =>
-          feature &&
-          `Current Time: ${utcCurrentTime.length>0 ? getCurrentTime(
-              utcCurrentTime, 
-              feature.properties[property[1]]) : ''}` 
-      )
-      .attr("x", '50%')
-      .attr("y", `${height/2}px`);    
-    svg
-      .selectAll(".label1")
-      .data([selectedCountry])
-      .join("text")
-      .attr("class", "label1")
-      .text(
-        feature =>
-          feature && 
-            `Time Zone: ${feature.properties[property[1]]}`
-      )
-      .attr("x", '50%')
-      .attr("y", `${height/2+18}px`);
-    svg
-      .selectAll(".label2")
-      .data([selectedCountry])
-      .join("text")
-      .attr("class", "label2")
-      .text(
-        feature =>
-          feature && 
-            `With DST: ${feature.properties[property[2]]===1?'Yes': 'No'}`
-      )
-      .attr("x", '50%')
-      .attr("y", `${(height/2)+(18*2)}px`);
+    // svg
+    //   .selectAll(".label")
+    //   .data([selectedCountry])
+    //   .join("text")
+    //   .attr("class", "label")
+    //   .text(
+    //     feature =>
+    //       feature &&
+    //       `<${feature.properties.name}>` 
+    //   )
+    //   .attr("x", '50%')
+    //   .attr("y", `${height/2-18}px`);    
+    // svg
+    //   .selectAll(".labelTime")
+    //   .data([selectedCountry])
+    //   .join("text")
+    //   .attr("class", "labelTime")
+    //   .text(
+    //     feature =>
+    //       feature &&
+    //       `Current Time: ${utcCurrentTime.length>0 ? getCurrentTime(
+    //           utcCurrentTime, 
+    //           feature.properties[property[1]]) : ''}` 
+    //   )
+    //   .attr("x", '50%')
+    //   .attr("y", `${height/2}px`);    
+    // svg
+    //   .selectAll(".label1")
+    //   .data([selectedCountry])
+    //   .join("text")
+    //   .attr("class", "label1")
+    //   .text(
+    //     feature =>
+    //       feature && 
+    //         `Time Zone: ${feature.properties[property[1]]}`
+    //   )
+    //   .attr("x", '50%')
+    //   .attr("y", `${height/2+18}px`);
+    // svg
+    //   .selectAll(".label2")
+    //   .data([selectedCountry])
+    //   .join("text")
+    //   .attr("class", "label2")
+    //   .text(
+    //     feature =>
+    //       feature && 
+    //         `With DST: ${feature.properties[property[2]]===1?'Yes': 'No'}`
+    //   )
+    //   .attr("x", '50%')
+    //   .attr("y", `${(height/2)+(18*2)}px`);
   }, [data, dimensions, property, selectedCountry, utcCurrentTime]);
 
   return (
@@ -92,6 +92,31 @@ function Globe({ data, property, utcCurrentTime }) {
     <small>click on country to show time info; click again on the country to zoom out map.</small>
       <div ref={wrapperRef} className="gutterBottom">
         <svg ref={svgRef}></svg>
+        {selectedCountry && 
+          <div className="tooltip">
+            <table>
+              <thead><tr>
+              <th colSpan="2">{selectedCountry.properties.name}</th>
+              </tr></thead>
+              <tbody>
+              <tr>
+                <td>Current Time</td>
+                <td>{utcCurrentTime.length>0 ? getCurrentTime(
+              utcCurrentTime, 
+              selectedCountry.properties[property[1]]) : ''}</td>
+              </tr>
+              <tr>
+                <td>Time Zone</td>
+                <td>{selectedCountry.properties[property[1]]}</td>
+              </tr>
+              <tr>
+                <td>With DST</td>
+                <td>{selectedCountry.properties[property[2]]===1?'Yes': 'No'}</td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        }
       </div>
     
     </>

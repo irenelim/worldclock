@@ -28,3 +28,21 @@ svg .country:hover {
   margin-bottom: 2rem;
 }
 
+.tooltip {
+  position: fixed;
+  z-index: 2;
+  top: 20%;
+  right: 10%;
+}
+
+table {
+  border-spacing: 0;
+}
+th, td {
+  border: 1px solid #bbb;
+}
+
+tr > td:first-child{
+  text-align: left;
+}
+
