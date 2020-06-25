@@ -39,7 +39,7 @@ function Globe({ data, property, utcCurrentTime }) {
       .attr("d", feature => pathGenerator(feature));
 
     const zoomBehavior = zoom()
-      .scaleExtent([0.8, 5])
+      .scaleExtent([0.8, 15])
       .translateExtent([
         [0, 0],
         [width, height]

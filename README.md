@@ -63,8 +63,8 @@ fallback: `new Date().toISOString()`
 - [data visualization d3](https://www.youtube.com/watch?v=_8V5o2UHG0E)
 
 ## Next
-- get City/Capital, Tz, show Date and Time
-- [X] + - zoom and pan for map(https://adamcarter.dev/creating-visualizations-with-d3-and-react/)
+- [ ] get City/Capital, TopoJson, Tz, show Date and Time
+- [X] [+ - zoom and pan for map](https://adamcarter.dev/creating-visualizations-with-d3-and-react/)
 - [X] tooltip format for map
 - [X] show value for bars
 - [X] color random for each countries.
