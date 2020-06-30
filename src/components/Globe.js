@@ -1,8 +1,13 @@
+// https://www.knoyd.com/blog/2017/7/4/traveling-the-world-in-d3-part-3
+// https://codepen.io/frontendcharts/pen/EpEgox?editors=0010
 import React, { useRef, useEffect, useState } from "react";
-import { select, geoPath, geoMercator, zoom, zoomTransform } from "d3";
+import { select, geoPath, geoMercator, geoOrthographic, zoom, zoomTransform } from "d3";
 import useResizeObserver from "../shared/useResizeObserver";
 import { getCurrentTime, randomColor } from '../shared/functions';
+import useAnimationFrame from '../shared/useAnimationFrame';
 import { visitedCountry } from '../data/mydata';
+// import * as topojson from "topojson";
+// import topoData from "../data/geoTopo.json";
 
 function Globe({ data, property, utcCurrentTime }) {
   const svgRef = useRef();
@@ -10,36 +15,49 @@ function Globe({ data, property, utcCurrentTime }) {
   const dimensions = useResizeObserver(wrapperRef);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [currentZoomState, setCurrentZoomState] = useState(null);
+  const [lambda, setLambda] = useState(0);
+  const [cancelRotation, setCancelRotation] = useState(false);  
+
+  useAnimationFrame(deltaTime => {
+    // Pass on a function to the setter of the state
+    // to make sure we always have the latest state
+    setLambda(prevLambda => (prevLambda + deltaTime * 0.01) % 360);
+  }, cancelRotation);
 
   useEffect(() => {
+    // const geoJson = topojson.feature(topoData, topoData.objects.ne_110m_admin_0_countries);
     const svg = select(svgRef.current);
     
     const { width, height } =
       dimensions || wrapperRef.current.getBoundingClientRect();
 
-    const projection = geoMercator()
-      .fitSize([width, height], selectedCountry || data)
-      .precision(100);
+      const projection = geoOrthographic()  //geoMercator()
+        // .fitSize([width, height], selectedCountry || data)
+        .fitSize([width, height], data)
+        // .fitSize([width, height], geoJson)
+        .rotate([lambda])
+        .precision(100);
 
-    const pathGenerator = geoPath().projection(projection);    
+    const pathGenerator = geoPath().projection(projection);  
 
     svg
       .selectAll(".country")
-      .data(data.features)
+      .data(data.features, feature => feature.properties['iso_a2'])
       .join(enter =>
         enter.append("path")
-          .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#EEF1F8'))
+          .attr("fill", feature => (visitedCountry.indexOf(feature.properties.name) > -1 ?  randomColor() : '#aaa'))
       )
       .on("click", feature => {
         setSelectedCountry(selectedCountry === feature ? null : feature);
+        setCancelRotation(selectedCountry === feature ? false : true);
         svg.attr('transform', selectedCountry === feature ? null : currentZoomState);
       })
-      .attr("class", "country")
-      .transition()        
-      .attr("d", feature => pathGenerator(feature));
+      .classed("country", true)
+      .attr("d", feature => pathGenerator(feature))
+      .transition();     
 
     const zoomBehavior = zoom()
-      .scaleExtent([0.8, 15])
+      .scaleExtent([1, 5])
       .translateExtent([
         [0, 0],
         [width, height]
@@ -52,13 +70,15 @@ function Globe({ data, property, utcCurrentTime }) {
 
     svg.call(zoomBehavior);
     
-  }, [data, dimensions, property, selectedCountry, utcCurrentTime, currentZoomState]);
+  }, [data, dimensions, property, selectedCountry, utcCurrentTime, currentZoomState, lambda]);
+
+  
 
   return (
     <>
     <h2>World Map Clock</h2>
     <small>click on country to show time info; click again on the country to zoom out map.</small>
-      <div ref={wrapperRef} className="gutterBottom">
+      <div ref={wrapperRef} className="gutter">
         <svg ref={svgRef}></svg>
         {selectedCountry && 
           <div className="tooltip">

@@ -5,9 +5,13 @@ svg {
   overflow: visible;
 }
 
+svg .country {
+  stroke: #EEF1F8;
+  stroke-width: 1px;
+}
+
 svg .country:hover {
   stroke: black;
-  stroke-width: 1px;
   cursor: pointer;
 }
 
@@ -24,8 +28,12 @@ svg .country:hover {
   cursor: pointer;
 }
 
-.gutterBottom {
+.gutter {
+  margin-top: 20px;
   margin-bottom: 2rem;
+  padding-left: 20px;
+  padding-top: 20px;
+  overflow: hidden;
 }
 
 .tooltip {
@@ -37,6 +45,7 @@ svg .country:hover {
 
 table {
   border-spacing: 0;
+  background-color: #fff;
 }
 th, td {
   border: 1px solid #bbb;

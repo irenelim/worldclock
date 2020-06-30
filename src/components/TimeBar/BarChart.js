@@ -14,11 +14,17 @@ function BarChart({currentTime}) {
          {xlabel:"min", value:currentTime ? parseInt(currentTime.split(/:/)[1]) : 0}];
 
         const svg = select(svgRef.current);
-        const { width, height } =
+        const MARGIN = {top: 20, right: 20, bottom: 20, left: 20}
+
+        let { width, height } =
             dimensions || wrapperRef.current.getBoundingClientRect(); 
 
+        height = height - MARGIN.top - MARGIN.bottom;
+        width = width - MARGIN.left - MARGIN.right;
+
         const xScale = scaleBand()
-            .domain(data.map((entry, index) => index))
+            // .domain(data.map((entry, index) => index))
+            .domain(data.map((entry) => entry.xlabel))
             .range([0, width])
             .padding(0.5);
 
@@ -31,8 +37,9 @@ function BarChart({currentTime}) {
             .range([height, 0]);
 
         const xAxis = axisBottom(xScale)
-                        .ticks(data.length)
-                        .tickFormat(d=>data[d].xlabel);
+                        // .ticks(data.length)
+                        .tickSizeOuter(0)
+                        // .tickFormat(d=>data[d].xlabel);
         svg
             .select(".x-axis")
             .style("transform", `translateY(${height}px)`)
@@ -51,36 +58,39 @@ function BarChart({currentTime}) {
         
         svg
             .selectAll(".bar")
-            .data(data.map(item=>item.value))
+            // .data(data.map(item=>item.value))
+            .data(data, data => data.xlabel)
             .join("rect")
-            .attr("class", "bar")
-            .attr("fill", (value, index) => barColor[index])
+            .classed("bar", true)
+            .attr("fill", (data, index) => barColor[index])
             .style("transform", "scale(1, -1")
-            .attr("x", (value, index) => xScale(index))
+            // .attr("x", (value, index) => xScale(index))
+            // .attr("y", -height)
+            .attr("x", (data, index) => xScale(data.xlabel))
             .attr("y", -height)
             .attr("width", xScale.bandwidth())
             // .on("click", (value, index) => {
             // })            
             .transition()
-            .attr("height", (value, index) => 
-                height - ( index===0 ? yScaleHr(value) : yScaleMin(value) )
+            .attr("height", (data, index) => 
+                height - ( index===0 ? yScaleHr(data.value) : yScaleMin(data.value) )
             );  
 
         svg
             .selectAll('.tip')
-            .data(data.map(item=>item.value))
+            .data(data, data => data.xlabel)
             .join("text")
-            .attr("class", "tip")
-            .text((value, index) => value)
-            .attr("x", (value, index) => xScale(index) + (xScale.bandwidth()/2) )
+            .classed("tip", true)
+            .text((data, index) => data.value)
+            .attr("x", (data, index) => xScale(data.xlabel) + (xScale.bandwidth()/2) )
             .attr("text-anchor", "middle")
             .attr("fill", "#fff")
-            .attr("y", (value, index) => (index===0 ? yScaleHr(value) : yScaleMin(value)) + (value>0 ? 18: 0));
+            .attr("y", (data, index) => (index===0 ? yScaleHr(data.value) : yScaleMin(data.value)) + (data.value>0 ? 18: 0));
 
     }, [currentTime, dimensions]);
 
     return (
-        <div ref={wrapperRef} className="gutterBottom">
+        <div ref={wrapperRef} className="gutter">
             <svg ref={svgRef}>
                 <g className="x-axis" />
                 <g className="y-axis-hr" />
