@@ -91,7 +91,7 @@ function BarChart({currentTime}) {
 
     return (
         <div ref={wrapperRef} className="gutter">
-            <svg ref={svgRef}>
+            <svg ref={svgRef} className="padding">
                 <g className="x-axis" />
                 <g className="y-axis-hr" />
                 <g className="y-axis-min" />

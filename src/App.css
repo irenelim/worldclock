@@ -1,3 +1,12 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0 1rem 150px;
+  text-align: center;
+}
+
 svg {
   display: block;
   width: 100%;
@@ -15,15 +24,6 @@ svg .country:hover {
   cursor: pointer;
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
-  padding: 0 50px 150px;
-  text-align: center;
-}
-
 .currentUTC {
   cursor: pointer;
 }
@@ -31,9 +31,13 @@ svg .country:hover {
 .gutter {
   margin-top: 20px;
   margin-bottom: 2rem;
-  padding-left: 20px;
+  /* padding-left: 35px; */
   padding-top: 20px;
   overflow: hidden;
+}
+
+.padding{
+  padding-left: 20px;
 }
 
 .tooltip {
